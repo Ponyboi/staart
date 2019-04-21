@@ -6,7 +6,7 @@ variables:
 steps:
 - script: |
     echo 'build starting!'
-    docker build -t $(dockerId).azurecr.io/$(startProxyImageName):v1 .
+    docker build -t $(dockerId).azurecr.io/$(startProxyImageName) .
     docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io
     docker push $(dockerId).azurecr.io/$(startProxyImageName)
   env:
