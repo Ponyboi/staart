@@ -6,7 +6,6 @@ variables:
 steps:
 - script: |
     echo 'build starting!'
-    workingDirectory: examples/staart
     docker build -t $(dockerId).azurecr.io/$(startProxyImageName) .
     docker login -u staart -p ENScgkUYL4bR+abTrtXCpvYGThJvtZ76 staart.azurecr.io
     # docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io
@@ -17,3 +16,4 @@ steps:
     docker-compose -f docs/docker-compose.yml --project-directory . down
   env:
     pswd: $(dockerPassword)        # Define dockerPassword in the Variables tab of this pipeline in Pipelines page of web interface
+  workingDirectory: examples/staart
