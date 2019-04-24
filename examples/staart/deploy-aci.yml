@@ -3,11 +3,9 @@ variables:
   startProxyImageName: staart_proxy  # Replace with the name of the image you want to publish
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.15'
 - script: |
     echo 'build starting!'
+    npm install
     docker build -f proxy/Dockerfile -t $(dockerId).azurecr.io/$(startProxyImageName) .
     docker login -u staart -p ENScgkUYL4bR+abTrtXCpvYGThJvtZ76 staart.azurecr.io 
     docker push staart.azurecr.io/staart_proxy
