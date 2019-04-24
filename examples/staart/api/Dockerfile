@@ -1,4 +1,4 @@
-FROM node:10-jessie
+FROM node:10.15
 
 COPY package.json package-lock.json ./
 
