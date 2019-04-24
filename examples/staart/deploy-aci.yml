@@ -1,17 +1,15 @@
 variables:
   dockerId: staart  # Replace with your Docker ID for Docker Hub or the admin user name for the Azure Container Registry
   startProxyImageName: staart_proxy  # Replace with the name of the image you want to publish
-  dockerPassword: ENScgkUYL4bR+abTrtXCpvYGThJvtZ76
 
 steps:
-- script: |
-    echo 'build starting!'
-    docker build -f proxy/Dockerfile -t $(dockerId).azurecr.io/$(startProxyImageName) .
-    docker login -u staart -p ENScgkUYL4bR+abTrtXCpvYGThJvtZ76 staart.azurecr.io # docker login -u $(dockerId) -p $(pswd) $(dockerId).azurecr.io
-    docker push staart.azurecr.io/staart_proxy # docker push $(dockerId).azurecr.io/$(startProxyImageName)
-    docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
-    docker wait docs_sut_1
-    docker-compose -f docker-compose.yml --project-directory . down
-  env:
-    pswd: $(dockerPassword)        # Define dockerPassword in the Variables tab of this pipeline in Pipelines page of web interface
-  workingDirectory: examples/staart
+- task: DockerCompose@0
+  displayName: Build services
+  inputs:
+    action: Build services
+    azureSubscriptionEndpoint: https://github.com/Ponyboi/staart.git
+    azureContainerRegistry: staart
+    dockerComposeFile: docker-compose.yml
+    projectName: $(Build.Repository.Name)
+    qualifyImageNames: true
+    additionalImageTags: $(Build.BuildId)
